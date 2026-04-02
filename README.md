@@ -4,6 +4,8 @@ A comparative study focused on the performance and payload sizes of **GoSPA** (a
 
 This repository contains two identical CRUD applications (a Todo list) implemented using both frameworks to measure network latency, response sizes, and time-to-interactivity across common operations.
 
+[github.com/aydenstechdungeon/gospa](https://github.com/aydenstechdungeon/gospa)
+
 ## 📊 Overview
 
 The benchmark evaluates the efficiency of each framework's server-side logic and client-side communication:
