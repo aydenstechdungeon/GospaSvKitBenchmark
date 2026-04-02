@@ -1,0 +1,2 @@
+// No islands registered
+export {};

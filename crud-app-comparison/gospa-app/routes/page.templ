@@ -1,0 +1,119 @@
+package routes
+
+import "fmt"
+
+templ Page() {
+    {{ todos := GetTodos() }}
+    <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
+        <main class="w-full max-w-lg bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
+            <header class="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 text-white">
+                <h1 class="text-2xl font-bold tracking-tight">GoSPA Todos</h1>
+                <p class="text-emerald-100 text-sm mt-1 opacity-90">Svelte-like Go reactivity</p>
+            </header>
+
+            <div class="p-6">
+                <div class="flex gap-2 mb-6">
+                    <input id="new-todo" type="text" placeholder="What needs to be done?" autocomplete="off" class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-colors" />
+                    <button id="add-btn" class="px-6 py-3 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all active:scale-95">Add</button>
+                </div>
+
+                <ul id="todo-list" class="space-y-2">
+                    if len(todos) == 0 {
+                        <li class="text-center py-8 text-slate-400 italic">No tasks yet. Add one above!</li>
+                    }
+                    for _, todo := range todos {
+                        <li id={ "todo-" + fmt.Sprint(todo.ID) } class={ "group flex items-center justify-between p-4 rounded-xl border transition-all", templ.KV("border-emerald-100 bg-slate-50 opacity-75", todo.Completed == 1), templ.KV("border-slate-100 hover:border-emerald-100 hover:bg-slate-50", todo.Completed == 0) }>
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <button data-toggle-id={ fmt.Sprint(todo.ID) } class={ "shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 focus:outline-none transition-colors", templ.KV("bg-emerald-500 border-emerald-500", todo.Completed == 1), templ.KV("border-slate-300 hover:border-emerald-400", todo.Completed == 0) }>
+                                    if todo.Completed == 1 {
+                                        <svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+                                    }
+                                </button>
+                                
+                                <span class={ "truncate transition-all", templ.KV("text-slate-400 line-through", todo.Completed == 1), templ.KV("text-slate-700 font-medium", todo.Completed == 0) }>
+                                    { todo.Text }
+                                </span>
+                            </div>
+                            <button data-delete-id={ fmt.Sprint(todo.ID) } class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </main>
+    </div>
+    <script type="module">
+        import { remote } from "/_gospa/runtime.js";
+        document.addEventListener('DOMContentLoaded', () => {
+            const addBtn = document.getElementById('add-btn');
+            const input = document.getElementById('new-todo');
+            
+            const refreshTodos = async () => {
+                const res = await GoSPA.remote('getTodos');
+                const list = document.getElementById('todo-list');
+                if (res.ok && list) {
+                    const todos = res.data;
+                    if (todos.length === 0) {
+                        list.innerHTML = '<li class="text-center py-8 text-slate-400 italic">No tasks yet. Add one above!</li>';
+                        return;
+                    }
+                    list.innerHTML = todos.map(todo => `
+                        <li id="todo-${todo.id}" class="group flex items-center justify-between p-4 rounded-xl border transition-all ${todo.completed === 1 ? 'border-emerald-100 bg-slate-50 opacity-75' : 'border-slate-100 hover:border-emerald-100 hover:bg-slate-50'}">
+                            <div class="flex items-center gap-3 overflow-hidden">
+                                <button data-toggle-id="${todo.id}" class="shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 focus:outline-none transition-colors ${todo.completed === 1 ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 hover:border-emerald-400'}">
+                                    ${todo.completed === 1 ? '<svg class="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>' : ''}
+                                </button>
+                                
+                                <span class="truncate transition-all ${todo.completed === 1 ? 'text-slate-400 line-through' : 'text-slate-700 font-medium'}">
+                                    ${todo.text}
+                                </span>
+                            </div>
+                            <button data-delete-id="${todo.id}" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all">
+                                <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                            </button>
+                        </li>
+                    `).join('');
+                }
+            };
+            
+            const handleAdd = async () => {
+                if (!input || !input.value) return;
+                addBtn.disabled = true;
+                input.disabled = true;
+                try {
+                    await GoSPA.remote('createTodo', input.value);
+                    await refreshTodos();
+                    input.value = '';
+                } catch (e) {
+                    console.error(e);
+                } finally {
+                    addBtn.disabled = false;
+                    input.disabled = false;
+                }
+            };
+            
+            if (addBtn) addBtn.addEventListener('click', handleAdd);
+            if (input) input.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') handleAdd();
+            });
+            
+            document.addEventListener('click', async (e) => {
+                const toggleBtn = e.target.closest('[data-toggle-id]');
+                if (toggleBtn) {
+                    const id = parseInt(toggleBtn.getAttribute('data-toggle-id'));
+                    await GoSPA.remote('toggleTodo', id);
+                    await refreshTodos();
+                }
+                
+                const deleteBtn = e.target.closest('[data-delete-id]');
+                if (deleteBtn) {
+                    const id = parseInt(deleteBtn.getAttribute('data-delete-id'));
+                    await GoSPA.remote('deleteTodo', id);
+                    await refreshTodos();
+                }
+            });
+        });
+    </script>
+}
+

@@ -1,0 +1,26 @@
+package routes
+
+import (
+    "github.com/aydenstechdungeon/gospa/routing"
+    gospa_templ "github.com/aydenstechdungeon/gospa/templ"
+)
+
+templ RootLayout(children templ.Component, props map[string]interface{}) {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoSPA Todos</title>
+    <link rel="stylesheet" href="/static/css/main.css" />
+</head>
+@gospa_templ.Flush()
+<body class="bg-slate-50 text-slate-900" data-gospa-auto>
+    @children
+</body>
+</html>
+}
+
+func init() {
+    routing.RegisterRootLayout(RootLayout)
+}
