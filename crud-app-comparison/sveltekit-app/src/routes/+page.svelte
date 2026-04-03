@@ -11,10 +11,10 @@
 
 <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
     <main
-        class="w-full max-w-lg bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100"
+        class="w-full max-w-xl bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100 flex flex-col"
     >
         <header
-            class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white"
+            class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white shrink-0"
         >
             <h1 class="text-2xl font-bold tracking-tight">SvelteKit Todos</h1>
             <p class="text-blue-100 text-sm mt-1 opacity-90">
@@ -22,11 +22,11 @@
             </p>
         </header>
 
-        <div class="p-6">
+        <div class="p-6 flex flex-col min-h-0">
             <form
                 method="POST"
                 action="?/create"
-                class="flex gap-2 mb-6"
+                class="flex gap-2 mb-6 shrink-0"
                 use:enhance={() => {
                     pendingCreate = true;
                     return async ({ update }) => {
@@ -53,7 +53,7 @@
                 </button>
             </form>
 
-            <ul class="space-y-2">
+            <ul class="space-y-2 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
                 {#if data.todos.length === 0 && !pendingCreate}
                     <li class="text-center py-8 text-slate-400 italic">
                         No tasks yet. Add one above!

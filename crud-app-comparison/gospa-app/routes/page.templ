@@ -5,19 +5,19 @@ import "fmt"
 templ Page() {
     {{ todos := GetTodos() }}
     <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
-        <main class="w-full max-w-lg bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100">
-            <header class="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 text-white">
+        <main class="w-full max-w-xl bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100 flex flex-col">
+            <header class="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 text-white shrink-0">
                 <h1 class="text-2xl font-bold tracking-tight">GoSPA Todos</h1>
                 <p class="text-emerald-100 text-sm mt-1 opacity-90">Svelte-like Go reactivity</p>
             </header>
 
-            <div class="p-6">
-                <div class="flex gap-2 mb-6">
+            <div class="p-6 flex flex-col min-h-0">
+                <div class="flex gap-2 mb-6 shrink-0">
                     <input id="new-todo" type="text" placeholder="What needs to be done?" autocomplete="off" class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-colors" />
                     <button id="add-btn" class="px-6 py-3 bg-emerald-600 text-white font-medium rounded-xl hover:bg-emerald-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 transition-all active:scale-95">Add</button>
                 </div>
 
-                <ul id="todo-list" class="space-y-2">
+                <ul id="todo-list" class="space-y-2 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
                     if len(todos) == 0 {
                         <li class="text-center py-8 text-slate-400 italic">No tasks yet. Add one above!</li>
                     }
@@ -49,6 +49,12 @@ templ Page() {
             const addBtn = document.getElementById('add-btn');
             const input = document.getElementById('new-todo');
             
+            const escapeHTML = (str) => {
+                const div = document.createElement('div');
+                div.textContent = str;
+                return div.innerHTML;
+            };
+
             const refreshTodos = async () => {
                 const res = await GoSPA.remote('getTodos');
                 const list = document.getElementById('todo-list');
@@ -66,7 +72,7 @@ templ Page() {
                                 </button>
                                 
                                 <span class="truncate transition-all ${todo.completed === 1 ? 'text-slate-400 line-through' : 'text-slate-700 font-medium'}">
-                                    ${todo.text}
+                                    ${escapeHTML(todo.text)}
                                 </span>
                             </div>
                             <button data-delete-id="${todo.id}" class="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all">
