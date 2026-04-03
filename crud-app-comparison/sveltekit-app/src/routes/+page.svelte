@@ -11,7 +11,7 @@
 
 <div class="min-h-screen flex items-center justify-center p-4 sm:p-8">
     <main
-        class="w-full max-w-xl bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100 flex flex-col"
+        class="w-full max-w-lg max-h-[50vh] bg-white shadow-xl rounded-2xl overflow-hidden border border-slate-100 flex flex-col"
     >
         <header
             class="bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-white shrink-0"
@@ -53,7 +53,10 @@
                 </button>
             </form>
 
-            <ul class="space-y-2 overflow-y-auto max-h-[500px] pr-2 custom-scrollbar">
+            <ul
+                class="space-y-2 overflow-y-auto pr-2 custom-scrollbar"
+                style="max-height: 400px;"
+            >
                 {#if data.todos.length === 0 && !pendingCreate}
                     <li class="text-center py-8 text-slate-400 italic">
                         No tasks yet. Add one above!
