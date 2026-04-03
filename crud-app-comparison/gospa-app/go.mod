@@ -6,7 +6,7 @@ replace github.com/aydenstechdungeon/gospa => /home/crsh22/gospa
 
 require (
 	github.com/a-h/templ v0.3.1001
-	github.com/aydenstechdungeon/gospa v0.1.32
+	github.com/aydenstechdungeon/gospa v0.1.35
 	github.com/mattn/go-sqlite3 v1.14.38
 )
 
