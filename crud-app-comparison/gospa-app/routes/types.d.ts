@@ -2,8 +2,8 @@
 // TypeScript Definitions for Go Structs
 
 export interface Todo {
+	id: number;
 	text: string;
 	completed: number;
-	id: number;
 }
 

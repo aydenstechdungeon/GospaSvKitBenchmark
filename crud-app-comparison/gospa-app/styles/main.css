@@ -4,3 +4,19 @@
     --font-sans: 'Inter', sans-serif;
     --color-primary: oklch(0.6 0.2 250);
 }
+
+@utility custom-scrollbar {
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: var(--color-slate-200);
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: var(--color-slate-300);
+    }
+}
