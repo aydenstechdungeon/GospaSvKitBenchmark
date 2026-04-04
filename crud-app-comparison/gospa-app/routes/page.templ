@@ -56,7 +56,7 @@ templ Page() {
             };
 
             const refreshTodos = async () => {
-                const res = await GoSPA.remote('getTodos');
+                const res = await remote('getTodos');
                 const list = document.getElementById('todo-list');
                 if (res.ok && list) {
                     const todos = res.data;
@@ -88,7 +88,7 @@ templ Page() {
                 addBtn.disabled = true;
                 input.disabled = true;
                 try {
-                    await GoSPA.remote('createTodo', input.value);
+                    await remote('createTodo', input.value);
                     await refreshTodos();
                     input.value = '';
                 } catch (e) {
@@ -108,14 +108,14 @@ templ Page() {
                 const toggleBtn = e.target.closest('[data-toggle-id]');
                 if (toggleBtn) {
                     const id = parseInt(toggleBtn.getAttribute('data-toggle-id'));
-                    await GoSPA.remote('toggleTodo', id);
+                    await remote('toggleTodo', id);
                     await refreshTodos();
                 }
                 
                 const deleteBtn = e.target.closest('[data-delete-id]');
                 if (deleteBtn) {
                     const id = parseInt(deleteBtn.getAttribute('data-delete-id'));
-                    await GoSPA.remote('deleteTodo', id);
+                    await remote('deleteTodo', id);
                     await refreshTodos();
                 }
             });

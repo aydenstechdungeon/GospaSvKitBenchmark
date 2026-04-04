@@ -10,9 +10,9 @@ import (
 
 func init() {
 	// Register pages
-	routing.RegisterPage("/", func(props map[string]interface{}) templ.Component {
+	routing.RegisterPageWithOptions("/", func(props map[string]interface{}) templ.Component {
 		return Page()
-	})
+	}, routing.RouteOptions{RuntimeTier: ""})
 
 	// Register layouts
 	routing.RegisterRootLayout(func(children templ.Component, props map[string]interface{}) templ.Component {
@@ -22,5 +22,5 @@ func init() {
 		}
 		return nil
 	}())
-	})
+	}, "")
 }
