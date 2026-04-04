@@ -59,7 +59,7 @@ func RootLayout(children templ.Component, props map[string]interface{}) templ.Co
 }
 
 func init() {
-	routing.RegisterRootLayout(RootLayout)
+	routing.RegisterRootLayout(RootLayout, "Full")
 }
 
 var _ = templruntime.GeneratedTemplate

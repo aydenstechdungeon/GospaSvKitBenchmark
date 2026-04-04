@@ -1,6 +1,7 @@
 {
   "name": "gospa-app",
   "private": true,
+  "type": "module",
   "devDependencies": {
     "@types/bun": "latest",
     "autoprefixer": "^10.4.27",

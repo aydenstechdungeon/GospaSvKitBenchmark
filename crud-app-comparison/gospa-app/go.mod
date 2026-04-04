@@ -2,7 +2,7 @@ module gospa-app
 
 go 1.26.1
 
-replace github.com/aydenstechdungeon/gospa => /home/crsh22/gospa
+replace github.com/aydenstechdungeon/gospa => /home/a4bet/gospa
 
 require (
 	github.com/a-h/templ v0.3.1001
