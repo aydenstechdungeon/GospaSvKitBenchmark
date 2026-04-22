@@ -8,7 +8,10 @@ package routes
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "fmt"
+import (
+	"fmt"
+	gospatempl "github.com/aydenstechdungeon/gospa/templ"
+)
 
 func Page() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -55,7 +58,7 @@ func Page() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs("todo-" + fmt.Sprint(todo.ID))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 25, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 28, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -90,7 +93,7 @@ func Page() templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(todo.ID))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 27, Col: 76}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 30, Col: 76}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -148,7 +151,7 @@ func Page() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(todo.Text)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 34, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 37, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -161,7 +164,7 @@ func Page() templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(todo.ID))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 37, Col: 72}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 40, Col: 72}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -172,7 +175,20 @@ func Page() templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</ul></div></main></div><script type=\"module\">\n        import { remote } from \"/_gospa/runtime.js\";\n        document.addEventListener('DOMContentLoaded', () => {\n            const addBtn = document.getElementById('add-btn');\n            const input = document.getElementById('new-todo');\n            \n            const escapeHTML = (str) => {\n                const div = document.createElement('div');\n                div.textContent = str;\n                return div.innerHTML;\n            };\n\n            const refreshTodos = async () => {\n                const res = await remote('getTodos');\n                const list = document.getElementById('todo-list');\n                if (res.ok && list) {\n                    const todos = res.data;\n                    if (todos.length === 0) {\n                        list.innerHTML = '<li class=\"text-center py-8 text-slate-400 italic\">No tasks yet. Add one above!</li>';\n                        return;\n                    }\n                    list.innerHTML = todos.map(todo => `\n                        <li id=\"todo-${todo.id}\" class=\"group flex items-center justify-between p-4 rounded-xl border transition-all ${todo.completed === 1 ? 'border-emerald-100 bg-slate-50 opacity-75' : 'border-slate-100 hover:border-emerald-100 hover:bg-slate-50'}\">\n                            <div class=\"flex items-center gap-3 overflow-hidden\">\n                                <button data-toggle-id=\"${todo.id}\" class=\"shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 focus:outline-none transition-colors ${todo.completed === 1 ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 hover:border-emerald-400'}\">\n                                    ${todo.completed === 1 ? '<svg class=\"w-4 h-4 text-white\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"3\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\" /></svg>' : ''}\n                                </button>\n                                \n                                <span class=\"truncate transition-all ${todo.completed === 1 ? 'text-slate-400 line-through' : 'text-slate-700 font-medium'}\">\n                                    ${escapeHTML(todo.text)}\n                                </span>\n                            </div>\n                            <button data-delete-id=\"${todo.id}\" class=\"p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all\">\n                                <svg class=\"w-5 h-5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16\" /></svg>\n                            </button>\n                        </li>\n                    `).join('');\n                }\n            };\n            \n            const handleAdd = async () => {\n                if (!input || !input.value) return;\n                addBtn.disabled = true;\n                input.disabled = true;\n                try {\n                    await remote('createTodo', input.value);\n                    await refreshTodos();\n                    input.value = '';\n                } catch (e) {\n                    console.error(e);\n                } finally {\n                    addBtn.disabled = false;\n                    input.disabled = false;\n                }\n            };\n            \n            if (addBtn) addBtn.addEventListener('click', handleAdd);\n            if (input) input.addEventListener('keydown', (e) => {\n                if (e.key === 'Enter') handleAdd();\n            });\n            \n            document.addEventListener('click', async (e) => {\n                const toggleBtn = e.target.closest('[data-toggle-id]');\n                if (toggleBtn) {\n                    const id = parseInt(toggleBtn.getAttribute('data-toggle-id'));\n                    await remote('toggleTodo', id);\n                    await refreshTodos();\n                }\n                \n                const deleteBtn = e.target.closest('[data-delete-id]');\n                if (deleteBtn) {\n                    const id = parseInt(deleteBtn.getAttribute('data-delete-id'));\n                    await remote('deleteTodo', id);\n                    await refreshTodos();\n                }\n            });\n        });\n    </script>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</ul></div></main></div><script type=\"module\" nonce=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(gospatempl.GetNonce(ctx))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `routes/page.templ`, Line: 49, Col: 58}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\">\n        import { remote } from \"/_gospa/runtime.js\";\n        document.addEventListener('DOMContentLoaded', () => {\n            const addBtn = document.getElementById('add-btn');\n            const input = document.getElementById('new-todo');\n            \n            const escapeHTML = (str) => {\n                const div = document.createElement('div');\n                div.textContent = str;\n                return div.innerHTML;\n            };\n\n            const refreshTodos = async () => {\n                const res = await remote('getTodos');\n                const list = document.getElementById('todo-list');\n                if (res.ok && list) {\n                    const todos = res.data;\n                    if (todos.length === 0) {\n                        list.innerHTML = '<li class=\"text-center py-8 text-slate-400 italic\">No tasks yet. Add one above!</li>';\n                        return;\n                    }\n                    list.innerHTML = todos.map(todo => `\n                        <li id=\"todo-${todo.id}\" class=\"group flex items-center justify-between p-4 rounded-xl border transition-all ${todo.completed === 1 ? 'border-emerald-100 bg-slate-50 opacity-75' : 'border-slate-100 hover:border-emerald-100 hover:bg-slate-50'}\">\n                            <div class=\"flex items-center gap-3 overflow-hidden\">\n                                <button data-toggle-id=\"${todo.id}\" class=\"shrink-0 flex items-center justify-center w-6 h-6 rounded-full border-2 focus:outline-none transition-colors ${todo.completed === 1 ? 'bg-emerald-500 border-emerald-500' : 'border-slate-300 hover:border-emerald-400'}\">\n                                    ${todo.completed === 1 ? '<svg class=\"w-4 h-4 text-white\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\" stroke-width=\"3\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" d=\"M5 13l4 4L19 7\" /></svg>' : ''}\n                                </button>\n                                \n                                <span class=\"truncate transition-all ${todo.completed === 1 ? 'text-slate-400 line-through' : 'text-slate-700 font-medium'}\">\n                                    ${escapeHTML(todo.text)}\n                                </span>\n                            </div>\n                            <button data-delete-id=\"${todo.id}\" class=\"p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg opacity-0 group-hover:opacity-100 focus:opacity-100 transition-all\">\n                                <svg class=\"w-5 h-5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16\" /></svg>\n                            </button>\n                        </li>\n                    `).join('');\n                }\n            };\n            \n            const handleAdd = async () => {\n                if (!input || !input.value) return;\n                addBtn.disabled = true;\n                input.disabled = true;\n                try {\n                    await remote('createTodo', input.value);\n                    await refreshTodos();\n                    input.value = '';\n                } catch (e) {\n                    console.error(e);\n                } finally {\n                    addBtn.disabled = false;\n                    input.disabled = false;\n                }\n            };\n            \n            if (addBtn) addBtn.addEventListener('click', handleAdd);\n            if (input) input.addEventListener('keydown', (e) => {\n                if (e.key === 'Enter') handleAdd();\n            });\n            \n            document.addEventListener('click', async (e) => {\n                const toggleBtn = e.target.closest('[data-toggle-id]');\n                if (toggleBtn) {\n                    const id = parseInt(toggleBtn.getAttribute('data-toggle-id'));\n                    await remote('toggleTodo', id);\n                    await refreshTodos();\n                }\n                \n                const deleteBtn = e.target.closest('[data-delete-id]');\n                if (deleteBtn) {\n                    const id = parseInt(deleteBtn.getAttribute('data-delete-id'));\n                    await remote('deleteTodo', id);\n                    await refreshTodos();\n                }\n            });\n        });\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

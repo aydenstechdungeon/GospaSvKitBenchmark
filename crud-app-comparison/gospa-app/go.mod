@@ -6,7 +6,7 @@ replace github.com/aydenstechdungeon/gospa => /home/a4bet/gospa
 
 require (
 	github.com/a-h/templ v0.3.1001
-	github.com/aydenstechdungeon/gospa v0.1.35
+	github.com/aydenstechdungeon/gospa v0.1.37
 	github.com/mattn/go-sqlite3 v1.14.38
 )
 
@@ -33,5 +33,5 @@ require (
 	golang.org/x/crypto v0.48.0 // indirect
 	golang.org/x/net v0.51.0 // indirect
 	golang.org/x/sys v0.41.0 // indirect
-	golang.org/x/text v0.35.0 // indirect
+	golang.org/x/text v0.36.0 // indirect
 )
